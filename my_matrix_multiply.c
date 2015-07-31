@@ -1,7 +1,7 @@
 //
 //  my_matrix_multiply.c
 //  Lab 3 - CS170 Winter 2015
-//  Created by Casey Barbello & Natasha Issayeva on 1/12/15.
+//  Created by Casey Barbello on 1/12/15.
 //
 
 #include <stdio.h>
