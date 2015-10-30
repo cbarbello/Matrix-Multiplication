@@ -128,7 +128,7 @@ int main(int argc, char **argv)
 	int i = 0;
 	int j = 0;
 
-	//populate matrix A array and check for improper formatting
+	//populate matrix A and check for improper formatting
 	while(fgets(line, 100, fa)) {
 		if(sscanf(line, "%lf", &arrayA[i]) == 1){
 			i++;
@@ -139,7 +139,7 @@ int main(int argc, char **argv)
 		exit(0);
 	}
 
-	//populate matrix B array and check for improper formatting
+	//populate matrix B and check for improper formatting
 	while(fgets(line, 100, fb)){
 		if(sscanf(line, "%lf", &arrayB[j]) == 1) {
 			j++;
