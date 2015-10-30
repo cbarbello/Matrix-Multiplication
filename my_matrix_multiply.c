@@ -55,7 +55,7 @@ void *matrixMultiply(void *arg)
 		}
 		sum = 0.0;
 		int rowNum = 0;
-		//do some magic to compute the sum
+		//compute the sum
 		for(int j = index; j < matrixA->numCols + index; j++){
 			sum += matrixA->data[j] * matrixB->data[matrixB->numCols*rowNum + iteratorB];
 			rowNum++;
@@ -105,7 +105,6 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: number of threads must be greater than 0.\n");
 		exit(0);
 	}
-
 	//get the number of rows and columns for each matrix and throw error if formatted improperly
 	if(fscanf(fa, "%d %d", &numRowsA, &numColsA) < 2) {
 		fprintf(stderr, "error: input file for matrix A is formatted improperly.\n");
@@ -115,7 +114,6 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: input file for matrix B is formatted improperly.\n");
 		exit(0);
 	}
-
 	//check if matrix multiplication is possible
 	if(numColsA != numRowsB) {
 		fprintf(stderr, "error: Matrix multiplication not possible with given matrices.\n");
@@ -183,7 +181,7 @@ int main(int argc, char **argv)
 	int matrixC_index = 0;
 	int err;
 
-	double timer = CTimer();/////////
+	double timer = CTimer();
 
 	//spawn the threads
 	fflush(stdout);
@@ -214,7 +212,7 @@ int main(int argc, char **argv)
 		err = pthread_join(threads[i], (void **)&args);
 	}
 
-	double timePassed = CTimer() - timer;/////////
+	double timePassed = CTimer() - timer;
 
 	//print the product in specified format
 	int it = 0;
