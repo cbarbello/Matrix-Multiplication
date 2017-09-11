@@ -1,2 +1,2 @@
 # Matrix-Multiplication
-Multi-threaded matix multiplication example.
+Multi-threaded matix multiplication in C.
