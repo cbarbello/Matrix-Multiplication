@@ -30,10 +30,8 @@ struct arg_struct
   struct matrix *C;
 };
 
-//thread function
 void *matrixMultiply(void *arg)
 {
-  //cast the void argument back to an arg_struct and pull data from it
   struct arg_struct *my_args = (struct arg_struct *)arg;
   int id = my_args->id;
   int index = my_args->index;
@@ -45,7 +43,6 @@ void *matrixMultiply(void *arg)
   double sum;
   int iteratorB = 0;
 
-  //for loop for matrix multiplication
   for(int i = 0; i < matrixC->numCols * rowsToCompute; i++){
     //this is for the case where a thread needs to work on more than one row.
     //we check if we're on to the next column and then reset our iteratorB and adjust the index.
@@ -73,7 +70,6 @@ int main(int argc, char **argv)
   FILE *fa, *fb;
   int numRowsA, numColsA, numRowsB, numColsB, numThreads;
 
-  //read input from command line and check for usage errors
   if(argc != 7) {
     printf("usage: my_matrix_multiply -a a_matrix_file.txt -b b_matrix_file.txt -t thread_count\n");
     exit(0);
@@ -95,18 +91,17 @@ int main(int argc, char **argv)
         exit(0);
     }
   }
-  //check to make sure the files can be opened
+
   if (fa == NULL || fb == NULL){
     fprintf(stderr, "error: could not open file.\n");
     exit(0);
   }
-  //make sure number of threads is valid
+
   if (numThreads < 1){
     fprintf(stderr, "error: number of threads must be greater than 0.\n");
     exit(0);
   }
 
-  //get the number of rows and columns for each matrix and throw error if formatted improperly
   if(fscanf(fa, "%d %d", &numRowsA, &numColsA) < 2) {
     fprintf(stderr, "error: input file for matrix A is formatted improperly.\n");
     exit(0);
@@ -116,7 +111,7 @@ int main(int argc, char **argv)
     exit(0);
   }
 
-  //check if matrix multiplication is possible
+  // check if matrix multiplication is possible
   if(numColsA != numRowsB) {
     fprintf(stderr, "error: Matrix multiplication not possible with given matrices.\n");
     exit(0);
@@ -130,7 +125,7 @@ int main(int argc, char **argv)
   int i = 0;
   int j = 0;
 
-  //populate matrix A array and check for improper formatting
+  // populate matrix A array and check for improper formatting
   while(fgets(line, 100, fa)) {
     if(sscanf(line, "%lf", &arrayA[i]) == 1){
       i++;
@@ -141,7 +136,7 @@ int main(int argc, char **argv)
     exit(0);
   }
 
-  //populate matrix B array and check for improper formatting
+  // populate matrix B array and check for improper formatting
   while(fgets(line, 100, fb)){
     if(sscanf(line, "%lf", &arrayB[j]) == 1) {
       j++;
@@ -154,7 +149,6 @@ int main(int argc, char **argv)
   fclose(fa);
   fclose(fb);
 
-  //create and populate the matrix structs
   struct matrix *matrixA = (struct matrix *)malloc(sizeof(struct matrix));
   struct matrix *matrixB = (struct matrix *)malloc(sizeof(struct matrix));
   struct matrix *matrixC = (struct matrix *)malloc(sizeof(struct matrix));
@@ -168,15 +162,14 @@ int main(int argc, char **argv)
   matrixC->numCols = numColsB;
   matrixC->data = arrayC;
 
-  //thread stuff starts here
   pthread_t *threads = (pthread_t *)malloc(sizeof(pthread_t)*numThreads);
   struct arg_struct *args;
 
-  //make adjustment if too many threads are specified
+  // make adjustment if too many threads are specified
   if(numThreads > numRowsA){
     numThreads = numRowsA;
   }
-  //divide up the rows evenly amongst the threads and track the remainder
+  // divide up the rows evenly amongst the threads and track the remainder
   int remainderRows = numRowsA % numThreads;
   int threadRows = (numRowsA - remainderRows)/numThreads;
   int index = 0;
@@ -185,7 +178,6 @@ int main(int argc, char **argv)
 
   double timer = CTimer();/////////
 
-  //spawn the threads
   fflush(stdout);
   for(int i = 0; i < numThreads; i++){
     args = (struct arg_struct *)malloc(sizeof(struct arg_struct));
@@ -196,7 +188,7 @@ int main(int argc, char **argv)
     args->index = index;
     args->matrixC_index = matrixC_index;
 
-    //distribute the remainder rows amongst the first n threads
+    // distribute the remainder rows amongst the first n threads
     if(i < remainderRows){
       args->rowsToCompute = threadRows + 1;
     }
@@ -208,7 +200,6 @@ int main(int argc, char **argv)
     err = pthread_create(&(threads[i]), NULL, matrixMultiply, (void *)args);
   }
   
-  //join the threads
   for(int i = 0; i < numThreads; i++){
     fflush(stdout);
     err = pthread_join(threads[i], (void **)&args);
@@ -216,7 +207,6 @@ int main(int argc, char **argv)
 
   double timePassed = CTimer() - timer;/////////
 
-  //print the product in specified format
   int it = 0;
   printf("%d %d\n", args->C->numRows, args->C->numCols);
 
