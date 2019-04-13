@@ -52,7 +52,7 @@ void *matrixMultiply(void *arg)
     }
     sum = 0.0;
     int rowNum = 0;
-    //do some magic to compute the sum
+    // compute the sum
     for(int j = index; j < matrixA->numCols + index; j++){
       sum += matrixA->data[j] * matrixB->data[matrixB->numCols*rowNum + iteratorB];
       rowNum++;
