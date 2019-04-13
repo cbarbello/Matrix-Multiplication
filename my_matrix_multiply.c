@@ -44,8 +44,8 @@ void *matrixMultiply(void *arg)
   int iteratorB = 0;
 
   for(int i = 0; i < matrixC->numCols * rowsToCompute; i++){
-    //this is for the case where a thread needs to work on more than one row.
-    //we check if we're on to the next column and then reset our iteratorB and adjust the index.
+    // this is for the case where a thread needs to work on more than one row.
+    // we check if we're on to the next column and then reset our iteratorB and adjust the index.
     if (i % matrixC->numCols == 0 && i > 0){
       iteratorB = 0;
       index += matrixA->numCols;
@@ -117,7 +117,6 @@ int main(int argc, char **argv)
     exit(0);
   }
 
-  //create matrix arrays
   double *arrayA = (double *)malloc((numRowsA * numColsA) * sizeof(double));
   double *arrayB = (double *)malloc((numRowsB * numColsB) * sizeof(double));
   double *arrayC = (double *)malloc((numRowsA * numColsB) * sizeof(double));
@@ -125,7 +124,6 @@ int main(int argc, char **argv)
   int i = 0;
   int j = 0;
 
-  // populate matrix A array and check for improper formatting
   while(fgets(line, 100, fa)) {
     if(sscanf(line, "%lf", &arrayA[i]) == 1){
       i++;
@@ -136,7 +134,6 @@ int main(int argc, char **argv)
     exit(0);
   }
 
-  // populate matrix B array and check for improper formatting
   while(fgets(line, 100, fb)){
     if(sscanf(line, "%lf", &arrayB[j]) == 1) {
       j++;
@@ -176,7 +173,7 @@ int main(int argc, char **argv)
   int matrixC_index = 0;
   int err;
 
-  double timer = CTimer();/////////
+  double timer = CTimer();
 
   fflush(stdout);
   for(int i = 0; i < numThreads; i++){
