@@ -202,7 +202,7 @@ int main(int argc, char **argv)
     err = pthread_join(threads[i], (void **)&args);
   }
 
-  double timePassed = CTimer() - timer;/////////
+  double timePassed = CTimer() - timer;
 
   int it = 0;
   printf("%d %d\n", args->C->numRows, args->C->numCols);
