@@ -232,7 +232,7 @@ int main(int argc, char **argv)
   return(0);
 }
 
-//commands (for easy pasting into the shell)
-//g++ my_matrix_multiply.c -o my_matrix_multiply
-//./my_matrix_multiply -a a_matrix_file.txt -b b_matrix_file.txt -r 1
-//g++ my_matrix_multiply.c c-timer.c -o my_matrix_multiply
+// commands (for easy pasting into the shell)
+// g++ my_matrix_multiply.c -o my_matrix_multiply
+// ./my_matrix_multiply -a a_matrix_file.txt -b b_matrix_file.txt -r 1
+// g++ my_matrix_multiply.c c-timer.c -o my_matrix_multiply
